@@ -1,3 +1,46 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "veg-biryani",
+      "description": "A flavorful vegetable biryani in a bowl.",
+      "imageUrl": "https://images.unsplash.com/photo-1630409346824-4f0e7b080087?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx2ZWclMjBiaXJ5YW5pfGVufDB8fHx8MTc2OTUwMTAxMXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "veg biryani"
+    },
+    {
+      "id": "sambar",
+      "description": "A traditional South Indian sambar with vegetables.",
+      "imageUrl": "https://picsum.photos/seed/102/600/400",
+      "imageHint": "sambar curry"
+    },
+    {
+      "id": "parotta",
+      "description": "Flaky South Indian layered flatbread.",
+      "imageUrl": "https://picsum.photos/seed/103/600/400",
+      "imageHint": "parotta bread"
+    },
+    {
+      "id": "fried-rice",
+      "description": "A bowl of vegetable fried rice.",
+      "imageUrl": "https://images.unsplash.com/photo-1612927601601-6638404737ce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxmcmllZCUyMHJpY2V8ZW58MHx8fHwxNzY5NDk2NTY2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fried rice"
+    },
+    {
+      "id": "hero-image",
+      "description": "A vibrant spread of various delicious foods.",
+      "imageUrl": "https://images.unsplash.com/photo-1545216560-68430ad77342?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmb29kJTIwc3ByZWFkfGVufDB8fHx8MTc2OTQyMjk4MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "food spread"
+    },
+    {
+      "id": "kitchen-staff",
+      "description": "A chef preparing food in a commercial kitchen.",
+      "imageUrl": "https://images.unsplash.com/photo-1588416820614-f8d6ac6cea56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjaGVmJTIwa2l0Y2hlbnxlbnwwfHx8fDE3Njk0MjIxODR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chef kitchen"
+    },
+    {
+      "id": "farm-animals",
+      "description": "A cow and other farm animals in a field.",
+      "imageUrl": "https://images.unsplash.com/photo-1614183653806-b4b9daed1954?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxmYXJtJTIwYW5pbWFsc3xlbnwwfHx8fDE3Njk1MDg0NDZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "farm animals"
+    }
+  ]
 }
