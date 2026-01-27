@@ -53,6 +53,12 @@
       "description": "A pile of stale bread loaves.",
       "imageUrl": "https://images.unsplash.com/photo-1710327597124-7826897a42bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdGFsZSUyMGJyZWFkfGVufDB8fHx8MTc2OTUwOTg4NHww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "stale bread"
+    },
+    {
+      "id": "cooked-rice",
+      "description": "A bowl of plain cooked white rice.",
+      "imageUrl": "https://images.unsplash.com/photo-1599351189498-ac24d7756b12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwbGFpbiUyMHJpY2V8ZW58MHx8fHwxNzcwNTM1NzMzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cooked rice"
     }
   ]
 }

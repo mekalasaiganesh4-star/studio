@@ -130,5 +130,21 @@ export const mockFoodItems: FoodItem[] = [
     status: 'Available',
     condition: 'Only for Animal Feed',
     verified: false,
+  },
+  {
+    id: '9',
+    name: 'Leftover Cooked Rice',
+    source: 'Community Kitchen',
+    type: 'Veg',
+    originalPrice: 40,
+    discountedPrice: 10,
+    expiryTime: new Date(now.getTime() + 12 * 60 * 60 * 1000).toISOString(),
+    preparedTime: new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString(),
+    imageId: 'cooked-rice',
+    quantity: 25,
+    rating: 4.0,
+    status: 'Available',
+    condition: 'Safe for Human Consumption',
+    verified: false,
   }
 ];
