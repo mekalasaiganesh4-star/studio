@@ -5,12 +5,12 @@ import { useState, useEffect, useMemo } from 'react';
 export const useCountdown = (targetDate: string) => {
   const countDownDate = useMemo(() => new Date(targetDate).getTime(), [targetDate]);
 
-  const [countDown, setCountDown] = useState(
-    countDownDate - new Date().getTime()
-  );
+  const [countDown, setCountDown] = useState(0);
 
   useEffect(() => {
     // This effect runs only on the client
+    setCountDown(countDownDate - new Date().getTime());
+    
     const interval = setInterval(() => {
       setCountDown(countDownDate - new Date().getTime());
     }, 1000);

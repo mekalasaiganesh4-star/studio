@@ -62,7 +62,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} WasteLess Feast. All rights reserved.</p>
+          <p suppressHydrationWarning>&copy; {new Date().getFullYear()} WasteLess Feast. All rights reserved.</p>
         </div>
       </div>
     </footer>
