@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 const navLinks = [
   { href: "/food", label: "Browse Food" },
   { href: "#", label: "For Hosts" },
-  { href: "#", label: "Animal Feed" },
+  { href: "/animal-feed", label: "Animal Feed" },
   { href: "#", label: "AI Suggestions" },
 ];
 

@@ -303,8 +303,8 @@ function AnimalFeedSection() {
                 </span>
               </li>
             </ul>
-            <Button size="lg" variant="outline" className="mt-8">
-              Learn More
+            <Button size="lg" variant="outline" className="mt-8" asChild>
+              <Link href="/animal-feed">Learn More</Link>
             </Button>
           </div>
         </div>

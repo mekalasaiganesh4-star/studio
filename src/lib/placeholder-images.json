@@ -41,6 +41,18 @@
       "description": "A cow and other farm animals in a field.",
       "imageUrl": "https://images.unsplash.com/photo-1614183653806-b4b9daed1954?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxmYXJtJTIwYW5pbWFsc3xlbnwwfHx8fDE3Njk1MDg0NDZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "farm animals"
+    },
+    {
+      "id": "vegetable-scraps",
+      "description": "A collection of vegetable scraps for compost or animal feed.",
+      "imageUrl": "https://images.unsplash.com/photo-1604835070732-aec3563c26c3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx2ZWdldGFibGUlMjBzY3JhcHN8ZW58MHx8fHwxNzY5NTA5ODg0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "vegetable scraps"
+    },
+    {
+      "id": "stale-bread",
+      "description": "A pile of stale bread loaves.",
+      "imageUrl": "https://images.unsplash.com/photo-1710327597124-7826897a42bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdGFsZSUyMGJyZWFkfGVufDB8fHx8MTc2OTUwOTg4NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "stale bread"
     }
   ]
 }
