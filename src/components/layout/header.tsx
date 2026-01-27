@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
 const navLinks = [
-  { href: "#", label: "Browse Food" },
+  { href: "/food", label: "Browse Food" },
   { href: "#", label: "For Hosts" },
   { href: "#", label: "Animal Feed" },
   { href: "#", label: "AI Suggestions" },

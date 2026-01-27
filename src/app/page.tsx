@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -157,8 +158,8 @@ function FeaturedItemsSection() {
           ))}
         </div>
         <div className="text-center mt-12">
-          <Button size="lg" variant="outline">
-            View All Food
+          <Button size="lg" variant="outline" asChild>
+            <Link href="/food">View All Food</Link>
           </Button>
         </div>
       </div>

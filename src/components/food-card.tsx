@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import {
   Card,
   CardContent,
@@ -25,16 +26,18 @@ export function FoodCard({ item }: FoodCardProps) {
   return (
     <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 group">
       <CardHeader className="p-0 relative">
-        <div className="aspect-w-16 aspect-h-9">
-          <Image
-            src={placeholder?.imageUrl ?? 'https://picsum.photos/seed/default/600/400'}
-            alt={placeholder?.description ?? item.name}
-            data-ai-hint={placeholder?.imageHint ?? 'food item'}
-            width={600}
-            height={400}
-            className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-300"
-          />
-        </div>
+        <Link href={`/food/${item.id}`}>
+          <div className="aspect-w-16 aspect-h-9">
+            <Image
+              src={placeholder?.imageUrl ?? 'https://picsum.photos/seed/default/600/400'}
+              alt={placeholder?.description ?? item.name}
+              data-ai-hint={placeholder?.imageHint ?? 'food item'}
+              width={600}
+              height={400}
+              className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-300"
+            />
+          </div>
+        </Link>
         <div className="absolute top-2 right-2 flex gap-2">
             {item.verified && (
                 <Badge variant="default" className="bg-primary/80 backdrop-blur-sm text-primary-foreground">
@@ -51,7 +54,11 @@ export function FoodCard({ item }: FoodCardProps) {
         </div>
       </CardHeader>
       <CardContent className="p-4 flex-grow">
-        <CardTitle className="text-lg font-headline leading-tight mb-1">{item.name}</CardTitle>
+        <CardTitle className="text-lg font-headline leading-tight mb-1">
+          <Link href={`/food/${item.id}`} className="hover:underline">
+            {item.name}
+          </Link>
+        </CardTitle>
         <p className="text-sm text-muted-foreground">{item.source}</p>
         <div className="flex items-center justify-between mt-4">
           <div>
@@ -68,7 +75,9 @@ export function FoodCard({ item }: FoodCardProps) {
         <div className="w-full">
             <Countdown targetDate={item.expiryTime} />
         </div>
-        <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">View Details</Button>
+        <Button asChild className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
+            <Link href={`/food/${item.id}`}>View Details</Link>
+        </Button>
       </CardFooter>
     </Card>
   );
