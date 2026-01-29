@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Button } from '@/components/ui/button';
@@ -11,6 +12,7 @@ import { notFound, useParams } from 'next/navigation';
 import {
   Clock,
   CookingPot,
+  ExternalLink,
   IndianRupee,
   MapPin,
   ShieldCheck,
@@ -22,6 +24,14 @@ import { Countdown } from '@/components/countdown';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useEffect, useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 export default function FoodDetailPage() {
   const params = useParams<{ id: string }>();
@@ -130,12 +140,49 @@ export default function FoodDetailPage() {
                     </p>
                   </div>
 
-                  <Button
-                    size="lg"
-                    className="w-full mt-6 bg-accent hover:bg-accent/90 text-accent-foreground"
-                  >
-                    <ShoppingCart className="mr-2" /> Place Order
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        size="lg"
+                        className="w-full mt-6 bg-accent hover:bg-accent/90 text-accent-foreground"
+                      >
+                        <ShoppingCart className="mr-2" /> Place Order
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Choose your delivery partner</DialogTitle>
+                        <DialogDescription>
+                          Select your preferred food delivery service to
+                          complete your order.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="flex flex-col gap-4 py-4">
+                        <Button asChild variant="outline" size="lg">
+                          <Link
+                            href="https://www.zomato.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-2"
+                          >
+                            <span>Order with Zomato</span>
+                            <ExternalLink className="w-4 h-4" />
+                          </Link>
+                        </Button>
+                        <Button asChild variant="outline" size="lg">
+                          <Link
+                            href="https://www.swiggy.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-2"
+                          >
+                            <span>Order with Swiggy</span>
+                            <ExternalLink className="w-4 h-4" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </CardContent>
               </Card>
 
