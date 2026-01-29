@@ -9,13 +9,13 @@
     {
       "id": "sambar",
       "description": "A traditional South Indian sambar with vegetables.",
-      "imageUrl": "https://picsum.photos/seed/102/600/400",
+      "imageUrl": "https://images.unsplash.com/photo-1606491589073-6a5b6d9c4996?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzYW1iYXIlMjBjdXJyeXxlbnwwfHx8fDE3NzA2MzE5NzF8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "sambar curry"
     },
     {
       "id": "parotta",
       "description": "Flaky South Indian layered flatbread.",
-      "imageUrl": "https://picsum.photos/seed/103/600/400",
+      "imageUrl": "https://images.unsplash.com/photo-1606471191001-6142e5a49910?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwYXJvdHRhJTIwYnJlYWR8ZW58MHx8fHwxNzcwNjMyMDMxfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "parotta bread"
     },
     {
