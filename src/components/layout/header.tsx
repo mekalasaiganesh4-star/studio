@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Leaf } from "lucide-react";
+import { Menu, Leaf, ShoppingCart } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
+import { useCart } from "@/context/cart-context";
+import { Badge } from "@/components/ui/badge";
 
 const navLinks = [
   { href: "/food", label: "Browse Food" },
@@ -17,6 +19,7 @@ const navLinks = [
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { itemCount } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,6 +28,18 @@ export function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const cartButton = (
+    <Button asChild variant="ghost" size="icon" className={cn(isScrolled ? "text-foreground" : "text-background hover:bg-white/10 hover:text-white")}>
+      <Link href="/cart" className="relative">
+        <ShoppingCart className="h-6 w-6" />
+        {itemCount > 0 && (
+          <Badge variant="destructive" className="absolute -top-1 -right-1 h-5 w-5 justify-center p-1 text-xs">{itemCount}</Badge>
+        )}
+        <span className="sr-only">View Cart</span>
+      </Link>
+    </Button>
+  );
 
   return (
     <header
@@ -52,12 +67,14 @@ export function Header() {
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-2">
+          {cartButton}
           <Button variant="ghost" className={cn(isScrolled ? "text-foreground" : "text-background hover:bg-white/10 hover:text-white")}>
             Log in
           </Button>
           <Button className="bg-accent text-accent-foreground hover:bg-accent/90">Sign up</Button>
         </div>
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-2">
+          {cartButton}
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className={cn(isScrolled ? "text-foreground" : "text-background hover:bg-white/10 hover:text-white")}>

@@ -14,3 +14,8 @@ export type FoodItem = {
   condition: 'Fresh' | 'Safe for Human Consumption' | 'Only for Animal Feed';
   verified: boolean;
 };
+
+export type CartItem = {
+  item: FoodItem;
+  quantity: number;
+};

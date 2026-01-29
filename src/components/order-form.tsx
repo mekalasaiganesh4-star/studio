@@ -28,7 +28,11 @@ const formSchema = z.object({
   }),
 });
 
-export function OrderForm() {
+type OrderFormProps = {
+  onOrderSubmit?: (values: z.infer<typeof formSchema>) => void;
+};
+
+export function OrderForm({ onOrderSubmit }: OrderFormProps) {
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -41,12 +45,15 @@ export function OrderForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast({
-      title: 'Order Placed!',
-      description: 'Your order has been confirmed. Thank you!',
-    });
-    // Here you would typically handle the order submission, e.g., API call.
+    if (onOrderSubmit) {
+      onOrderSubmit(values);
+    } else {
+      console.log(values);
+      toast({
+        title: 'Order Placed!',
+        description: 'Your order has been confirmed. Thank you!',
+      });
+    }
   }
 
   return (
@@ -72,7 +79,11 @@ export function OrderForm() {
             <FormItem>
               <FormLabel>Mobile Number</FormLabel>
               <FormControl>
-                <Input type="tel" placeholder="Enter your mobile number" {...field} />
+                <Input
+                  type="tel"
+                  placeholder="Enter your mobile number"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -96,7 +107,7 @@ export function OrderForm() {
           )}
         />
         <Button type="submit" className="w-full">
-          Confirm Order
+          Place Order
         </Button>
       </form>
     </Form>

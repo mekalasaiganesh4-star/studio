@@ -22,20 +22,13 @@ import { Countdown } from '@/components/countdown';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useEffect, useState } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import { OrderForm } from '@/components/order-form';
+import { useCart } from '@/context/cart-context';
 
 export default function FoodDetailPage() {
   const params = useParams<{ id: string }>();
   const [preparedDate, setPreparedDate] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
+  const { addToCart } = useCart();
 
   const item = mockFoodItems.find((i) => i.id === params.id);
 
@@ -49,6 +42,12 @@ export default function FoodDetailPage() {
   if (!item) {
     notFound();
   }
+
+  const handleAddToCart = () => {
+    if (item) {
+      addToCart(item);
+    }
+  };
 
   const placeholder = PlaceHolderImages.find((img) => img.id === item.imageId);
 
@@ -139,27 +138,13 @@ export default function FoodDetailPage() {
                     </p>
                   </div>
 
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button
-                        size="lg"
-                        className="w-full mt-6 bg-accent hover:bg-accent/90 text-accent-foreground"
-                      >
-                        <ShoppingCart className="mr-2" /> Place Order
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Confirm Your Order</DialogTitle>
-                        <DialogDescription>
-                          Please provide your details to complete the order.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div className="py-4">
-                        <OrderForm />
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                  <Button
+                    size="lg"
+                    className="w-full mt-6 bg-accent hover:bg-accent/90 text-accent-foreground"
+                    onClick={handleAddToCart}
+                  >
+                    <ShoppingCart className="mr-2" /> Add to Cart
+                  </Button>
                 </CardContent>
               </Card>
 

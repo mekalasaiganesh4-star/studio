@@ -36,6 +36,7 @@ export function Footer() {
             <h4 className="font-semibold text-foreground">Quick Links</h4>
             <ul className="mt-4 space-y-2">
               <li><Link href="/food" className="text-muted-foreground hover:text-primary">Browse Food</Link></li>
+              <li><Link href="/orders" className="text-muted-foreground hover:text-primary">My Orders</Link></li>
               <li><Link href="#" className="text-muted-foreground hover:text-primary">For Hosts</Link></li>
               <li><Link href="/animal-feed" className="text-muted-foreground hover:text-primary">Animal Feed</Link></li>
               <li><Link href="#" className="text-muted-foreground hover:text-primary">Login</Link></li>
