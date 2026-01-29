@@ -1,6 +1,6 @@
 import type { FoodItem } from "./types";
 
-const now = new Date('2030-01-01T00:00:00Z');
+const now = new Date();
 
 export const mockFoodItems: FoodItem[] = [
   {
