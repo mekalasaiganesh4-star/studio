@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { mockFoodItems } from '@/lib/data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import {
   Clock,
   CookingPot,
@@ -23,7 +23,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useEffect, useState } from 'react';
 
-export default function FoodDetailPage({ params }: { params: { id: string } }) {
+export default function FoodDetailPage() {
+  const params = useParams<{ id: string }>();
   const [preparedDate, setPreparedDate] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
 
