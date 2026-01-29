@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import type { FoodItem } from "@/lib/types";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { cn } from "@/lib/utils";
-import { ShieldCheck, Star } from "lucide-react";
+import { IndianRupee, ShieldCheck, Star } from "lucide-react";
 import { Countdown } from "./countdown";
 
 type FoodCardProps = {
@@ -61,9 +61,9 @@ export function FoodCard({ item }: FoodCardProps) {
         </CardTitle>
         <p className="text-sm text-muted-foreground">{item.source}</p>
         <div className="flex items-center justify-between mt-4">
-          <div>
-            <span className="text-2xl font-bold text-primary">₹{item.discountedPrice}</span>
-            <span className="ml-2 line-through text-muted-foreground">₹{item.originalPrice}</span>
+          <div className="flex items-baseline gap-2">
+            <span className="flex items-center text-2xl font-bold text-primary"><IndianRupee className="w-5 h-5" />{item.discountedPrice}</span>
+            <span className="flex items-center line-through text-muted-foreground text-sm"><IndianRupee className="w-3 h-3" />{item.originalPrice}</span>
           </div>
           <div className="flex items-center gap-1 text-sm text-muted-foreground">
             <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
