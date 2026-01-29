@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Button } from '@/components/ui/button';
@@ -12,7 +11,6 @@ import { notFound, useParams } from 'next/navigation';
 import {
   Clock,
   CookingPot,
-  ExternalLink,
   IndianRupee,
   MapPin,
   ShieldCheck,
@@ -32,6 +30,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { OrderForm } from '@/components/order-form';
 
 export default function FoodDetailPage() {
   const params = useParams<{ id: string }>();
@@ -151,35 +150,13 @@ export default function FoodDetailPage() {
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
-                        <DialogTitle>Choose your delivery partner</DialogTitle>
+                        <DialogTitle>Confirm Your Order</DialogTitle>
                         <DialogDescription>
-                          Select your preferred food delivery service to
-                          complete your order.
+                          Please provide your details to complete the order.
                         </DialogDescription>
                       </DialogHeader>
-                      <div className="flex flex-col gap-4 py-4">
-                        <Button asChild variant="outline" size="lg">
-                          <Link
-                            href="https://www.zomato.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-2"
-                          >
-                            <span>Order with Zomato</span>
-                            <ExternalLink className="w-4 h-4" />
-                          </Link>
-                        </Button>
-                        <Button asChild variant="outline" size="lg">
-                          <Link
-                            href="https://www.swiggy.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-2"
-                          >
-                            <span>Order with Swiggy</span>
-                            <ExternalLink className="w-4 h-4" />
-                          </Link>
-                        </Button>
+                      <div className="py-4">
+                        <OrderForm />
                       </div>
                     </DialogContent>
                   </Dialog>
