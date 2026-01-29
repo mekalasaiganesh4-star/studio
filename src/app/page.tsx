@@ -82,7 +82,7 @@ function HeroSection() {
           Get delicious leftover meals from your favorite local spots at a
           fraction of the price.
         </p>
-        <div className="mt-8 w-full max-w-2xl bg-background/90 p-4 rounded-lg shadow-lg">
+        <div className="mt-8 w-full max-w-2xl bg-background/90 p-4 rounded-lg shadow-lg text-foreground">
           <form
             onSubmit={handleSearch}
             className="flex flex-col sm:flex-row gap-2"
