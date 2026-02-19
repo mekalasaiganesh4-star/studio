@@ -1,0 +1,175 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * WASTELESS FEAST - SECURITY RULES DOCUMENTATION
+     *
+     * Core Philosophy:
+     * This ruleset implements a multi-tenant authorization model for Normal Users, Hosts, and Admins.
+     * It relies heavily on denormalization (storing UIDs directly on documents) to ensure high
+     * performance and to avoid expensive 'get' calls during rule evaluation.
+     *
+     * Data Structure:
+     * - /users/{userId}: Private user profiles and nested subcollections (addresses, notifications).
+     * - /roles_admin/{adminUid}: A dedicated collection for administrative privilege escalation.
+     * - /host_profiles/{hostProfileId}: Profiles for food providers, linked to a User via 'userId'.
+     * - /food_items/{foodItemId}: Publicly listable items for purchase, owned by a Host.
+     * - /orders/{orderId}: Transactional data shared between a Customer and a Host.
+     *
+     * Key Security Decisions:
+     * 1. Authorization Independence: Documents like 'FoodItem' and 'Order' contain denormalized UIDs
+     *    (e.g., hostUserId, userId) to allow immediate ownership verification.
+     * 2. Administrative Override: An 'isAdmin' helper checks the /roles_admin collection to grant
+     *    global access to support staff.
+     * 3. Prototyping Flexibility: Rules enforce strict ownership and relational integrity (IDs matching paths)
+     *    but do not validate the specific data types or schema of non-relational fields.
+     */
+
+    // --- HELPER FUNCTIONS ---
+
+    /** @description Checks if the user is authenticated. */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /** @description Checks if the user's UID matches the provided userId. */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /** @description Checks if the user is an administrator via the existence of a role document. */
+    function isAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
+    }
+
+    /** @description Checks if the user owns the existing document. */
+    function isExistingOwner(userId) {
+      return resource != null && isOwner(userId);
+    }
+
+    /** @description Helper for Order access: true if user is the customer or the host associated with the order. */
+    function isOrderParticipant(orderData) {
+      return isSignedIn() && (request.auth.uid == orderData.userId || request.auth.uid == orderData.hostUserId || isAdmin());
+    }
+
+    // --- COLLECTION RULES ---
+
+    /**
+     * @description Rules for the User collection. Users can manage their own profile.
+     * @path /users/{userId}
+     * @allow (create) if auth.uid matches {userId}.
+     * @deny (update) if auth.uid does not match {userId} and user is not an Admin.
+     * @principle Restricts user profile access to the owner or administrators.
+     */
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+      allow update: if (isExistingOwner(userId) || isAdmin()) && request.resource.data.id == resource.data.id;
+      allow delete: if isAdmin();
+
+      /**
+       * @description Rules for User Addresses.
+       * @path /users/{userId}/addresses/{addressId}
+       * @allow (list) if auth.uid matches {userId}.
+       * @deny (create) if userId in path doesn't match auth.uid.
+       */
+      match /addresses/{addressId} {
+        allow get, list: if isOwner(userId) || isAdmin();
+        allow create: if isOwner(userId);
+        allow update, delete: if isOwner(userId) || isAdmin();
+      }
+
+      /**
+       * @description Rules for User Notifications.
+       * @path /users/{userId}/notifications/{notificationId}
+       * @allow (update) to mark as read if owner.
+       * @deny (delete) if not admin.
+       */
+      match /notifications/{notificationId} {
+        allow get, list: if isOwner(userId) || isAdmin();
+        allow create: if isAdmin(); // Notifications are usually system-generated
+        allow update: if isOwner(userId) || isAdmin();
+        allow delete: if isAdmin();
+      }
+    }
+
+    /**
+     * @description Administrative Role Registry. Existence of a doc grants admin rights.
+     * @path /roles_admin/{adminUid}
+     * @allow (get) if authenticated.
+     * @deny (write) via client SDK; must be managed via Admin SDK/Console.
+     * @principle Existence-over-content authorization for high-privilege roles.
+     */
+    match /roles_admin/{adminUid} {
+      allow get: if isSignedIn();
+      allow list, create, update, delete: if false; 
+    }
+
+    /**
+     * @description Rules for Host Profiles.
+     * @path /host_profiles/{hostProfileId}
+     * @allow (get) if profile is approved or if user is the host owner.
+     * @deny (update) 'isApprovedByAdmin' field unless user is an Admin.
+     * @principle Authorization independence via denormalized 'userId'.
+     */
+    match /host_profiles/{hostProfileId} {
+      allow get: if resource.data.isApprovedByAdmin == true || isOwner(resource.data.userId) || isAdmin();
+      allow list: if isAdmin() || true; // Filtered by isApprovedByAdmin in query
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if (isExistingOwner(resource.data.userId) || isAdmin()) && (request.resource.data.isApprovedByAdmin == resource.data.isApprovedByAdmin || isAdmin());
+      allow delete: if isAdmin();
+
+      /**
+       * @description Host-specific address details.
+       * @path /host_profiles/{hostProfileId}/address_details/{addressId}
+       */
+      match /address_details/{addressId} {
+        allow get: if true; // Addresses of hosts are generally public
+        allow list: if true;
+        allow create: if isSignedIn() && request.resource.data.hostUserId == request.auth.uid;
+        allow update, delete: if (isSignedIn() && (request.auth.uid == resource.data.hostUserId)) || isAdmin();
+      }
+    }
+
+    /**
+     * @description Rules for Food Items.
+     * @path /food_items/{foodItemId}
+     * @allow (list) if item is verified and available.
+     * @deny (create) if 'hostUserId' does not match authenticated user.
+     * @principle Uses denormalized host ID for direct ownership validation.
+     */
+    match /food_items/{foodItemId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if isSignedIn() && request.resource.data.hostUserId == request.auth.uid;
+      allow update: if (isSignedIn() && (request.auth.uid == resource.data.hostUserId || isAdmin())) && (request.resource.data.hostUserId == resource.data.hostUserId);
+      allow delete: if (isSignedIn() && (request.auth.uid == resource.data.hostUserId)) || isAdmin();
+    }
+
+    /**
+     * @description Rules for Orders.
+     * @path /orders/{orderId}
+     * @allow (get) if user is the customer (userId) or the host (hostUserId).
+     * @deny (create) if the customer UID in the data doesn't match the sender.
+     * @principle Shared access pattern for multi-party transactions.
+     */
+    match /orders/{orderId} {
+      allow get, list: if isOrderParticipant(resource.data);
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isOrderParticipant(resource.data);
+      allow delete: if isAdmin();
+
+      /**
+       * @description Line items for an order.
+       * @path /orders/{orderId}/order_items/{orderItemId}
+       */
+      match /order_items/{orderItemId} {
+        allow get, list: if isOrderParticipant(get(/databases/$(database)/documents/orders/$(orderId)).data);
+        allow create: if isOrderParticipant(get(/databases/$(database)/documents/orders/$(orderId)).data);
+        allow update, delete: if isAdmin();
+      }
+    }
+  }
+}

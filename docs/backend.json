@@ -1,0 +1,644 @@
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user of the WasteLess Feast application, encompassing Normal Users, Hosts, and Admins.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the User entity."
+        },
+        "role": {
+          "type": "string",
+          "description": "The role of the user within the application.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mobileNumber": {
+          "type": "string",
+          "description": "The mobile number associated with the user, used for login."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the user, used for login by Admins and Hosts.",
+          "format": "email"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the user."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the user."
+        },
+        "registrationDate": {
+          "type": "string",
+          "description": "Timestamp when the user registered.",
+          "format": "date-time"
+        },
+        "profileImageUrl": {
+          "type": "string",
+          "description": "URL to the user's profile image.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "role",
+        "mobileNumber",
+        "firstName",
+        "lastName",
+        "registrationDate"
+      ]
+    },
+    "HostProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "HostProfile",
+      "type": "object",
+      "description": "Represents a food provider (e.g., hotel, hostel, community kitchen) that lists food items. Linked to a User with the 'Host' role.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the HostProfile entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the User entity who manages this host profile. (Relationship: User 1:1 HostProfile)"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the food provider (e.g., 'Radha Krishna Hotel', 'Nalabagam Canteen')."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of food provider.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "contactEmail": {
+          "type": "string",
+          "description": "The primary contact email for the host profile.",
+          "format": "email"
+        },
+        "contactPhone": {
+          "type": "string",
+          "description": "The primary contact phone number for the host profile."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the food provider."
+        },
+        "hygieneCertificationUrl": {
+          "type": "string",
+          "description": "URL to the host's hygiene certification document (optional).",
+          "format": "uri"
+        },
+        "registrationDate": {
+          "type": "string",
+          "description": "Timestamp when the host profile was registered.",
+          "format": "date-time"
+        },
+        "isApprovedByAdmin": {
+          "type": "boolean",
+          "description": "Indicates if the host profile has been approved by an administrator."
+        },
+        "locationAddressId": {
+          "type": "string",
+          "description": "Reference to the Address entity for the host's physical location. (Relationship: HostProfile 1:1 Address)"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "name",
+        "type",
+        "contactEmail",
+        "contactPhone",
+        "description",
+        "registrationDate",
+        "isApprovedByAdmin",
+        "locationAddressId"
+      ]
+    },
+    "FoodItem": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "FoodItem",
+      "type": "object",
+      "description": "Represents a single food item listing available for purchase or redirection.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the FoodItem entity."
+        },
+        "hostProfileId": {
+          "type": "string",
+          "description": "Reference to the HostProfile entity that provided this food item. (Relationship: HostProfile 1:N FoodItem)"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the food item (e.g., 'Veg Biriyani')."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the food item."
+        },
+        "foodType": {
+          "type": "string",
+          "description": "Indicates if the food item is vegetarian or non-vegetarian.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "quantityAvailable": {
+          "type": "number",
+          "description": "The current quantity of the food item available."
+        },
+        "originalPrice": {
+          "type": "number",
+          "description": "The original price of the food item."
+        },
+        "discountedPrice": {
+          "type": "number",
+          "description": "The low cost, discounted price of the food item."
+        },
+        "currency": {
+          "type": "string",
+          "description": "The currency of the prices (default 'INR')."
+        },
+        "preparedTime": {
+          "type": "string",
+          "description": "Timestamp indicating when the food was prepared.",
+          "format": "date-time"
+        },
+        "expiryTime": {
+          "type": "string",
+          "description": "Timestamp indicating when the food item expires.",
+          "format": "date-time"
+        },
+        "foodCondition": {
+          "type": "string",
+          "description": "The assessed condition of the food, determining its suitability for consumption.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "imageUrls": {
+          "type": "array",
+          "description": "An array of URLs to images of the food item.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "testingReportUrls": {
+          "type": "array",
+          "description": "An array of URLs to food testing report documents (PDF/Image).",
+          "items": {
+            "type": "string"
+          }
+        },
+        "isVerifiedByAdmin": {
+          "type": "boolean",
+          "description": "Indicates if the food item listing and its reports have been verified by an administrator."
+        },
+        "availabilityStatus": {
+          "type": "string",
+          "description": "The current availability status of the food item.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "uploadDate": {
+          "type": "string",
+          "description": "Timestamp when the food item listing was uploaded.",
+          "format": "date-time"
+        },
+        "adminApprovalDate": {
+          "type": "string",
+          "description": "Timestamp when the food item was approved by an administrator (optional).",
+          "format": "date-time"
+        },
+        "specialTag": {
+          "type": "string",
+          "description": "A special tag associated with the food item (e.g., 'Hostel Fresh Food')."
+        }
+      },
+      "required": [
+        "id",
+        "hostProfileId",
+        "name",
+        "description",
+        "foodType",
+        "quantityAvailable",
+        "originalPrice",
+        "discountedPrice",
+        "currency",
+        "preparedTime",
+        "expiryTime",
+        "foodCondition",
+        "imageUrls",
+        "isVerifiedByAdmin",
+        "availabilityStatus",
+        "uploadDate"
+      ]
+    },
+    "Order": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Order",
+      "type": "object",
+      "description": "Represents a customer's order for food items.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Order entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the User entity who placed the order. (Relationship: User 1:N Order)"
+        },
+        "hostProfileId": {
+          "type": "string",
+          "description": "Reference to the HostProfile entity from which the food items are ordered. (Relationship: HostProfile 1:N Order)"
+        },
+        "orderDate": {
+          "type": "string",
+          "description": "Timestamp when the order was placed.",
+          "format": "date-time"
+        },
+        "deliveryOption": {
+          "type": "string",
+          "description": "The chosen delivery method for the order.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "pickupOrDeliveryTime": {
+          "type": "string",
+          "description": "The scheduled time for pickup or delivery.",
+          "format": "date-time"
+        },
+        "totalAmount": {
+          "type": "number",
+          "description": "The total monetary amount of the order, including taxes and delivery fees."
+        },
+        "paymentMethod": {
+          "type": "string",
+          "description": "The method used for payment.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "paymentStatus": {
+          "type": "string",
+          "description": "The current status of the payment.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "orderStatus": {
+          "type": "string",
+          "description": "The current status of the order lifecycle.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "deliveryAddressId": {
+          "type": "string",
+          "description": "Reference to the Address entity specified for this order's delivery. (Relationship: Order 1:1 Address)"
+        },
+        "customerContactNumber": {
+          "type": "string",
+          "description": "The customer's contact number provided for this specific order."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "hostProfileId",
+        "orderDate",
+        "deliveryOption",
+        "pickupOrDeliveryTime",
+        "totalAmount",
+        "paymentMethod",
+        "paymentStatus",
+        "orderStatus",
+        "customerContactNumber"
+      ]
+    },
+    "OrderItem": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "OrderItem",
+      "type": "object",
+      "description": "Represents a specific food item included in an order.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the OrderItem entity."
+        },
+        "orderId": {
+          "type": "string",
+          "description": "Reference to the Order entity this item belongs to. (Relationship: Order 1:N OrderItem)"
+        },
+        "foodItemId": {
+          "type": "string",
+          "description": "Reference to the FoodItem entity being ordered. (Relationship: FoodItem 1:N OrderItem)"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "The quantity of the food item ordered."
+        },
+        "priceAtOrder": {
+          "type": "number",
+          "description": "The price per unit of the food item at the time the order was placed."
+        }
+      },
+      "required": [
+        "id",
+        "orderId",
+        "foodItemId",
+        "quantity",
+        "priceAtOrder"
+      ]
+    },
+    "Address": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Address",
+      "type": "object",
+      "description": "Represents a physical address, used for user delivery and host locations.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Address entity."
+        },
+        "street": {
+          "type": "string",
+          "description": "The street address, including building number."
+        },
+        "city": {
+          "type": "string",
+          "description": "The city of the address."
+        },
+        "state": {
+          "type": "string",
+          "description": "The state or province of the address."
+        },
+        "zipCode": {
+          "type": "string",
+          "description": "The postal or zip code of the address."
+        },
+        "country": {
+          "type": "string",
+          "description": "The country of the address (default 'India')."
+        },
+        "latitude": {
+          "type": "number",
+          "description": "Geographical latitude of the address (optional)."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Geographical longitude of the address (optional)."
+        },
+        "isDefault": {
+          "type": "boolean",
+          "description": "Indicates if this is the user's default delivery address."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the User entity this address belongs to (optional). (Relationship: User 1:N Address)"
+        },
+        "hostProfileId": {
+          "type": "string",
+          "description": "Reference to the HostProfile entity this address belongs to (optional, for host's primary location). (Relationship: HostProfile 1:1 Address)"
+        }
+      },
+      "required": [
+        "id",
+        "street",
+        "city",
+        "state",
+        "zipCode",
+        "country"
+      ]
+    },
+    "Notification": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Notification",
+      "type": "object",
+      "description": "Represents a notification sent to a user within the application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Notification entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the User entity who is the recipient of this notification. (Relationship: User 1:N Notification)"
+        },
+        "type": {
+          "type": "string",
+          "description": "The category or type of the notification.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "message": {
+          "type": "string",
+          "description": "The content message of the notification."
+        },
+        "readStatus": {
+          "type": "boolean",
+          "description": "Indicates if the user has read the notification."
+        },
+        "sentDate": {
+          "type": "string",
+          "description": "Timestamp when the notification was sent.",
+          "format": "date-time"
+        },
+        "relatedOrderId": {
+          "type": "string",
+          "description": "Reference to an Order entity if the notification is related to an order. (Relationship: Order 1:N Notification)"
+        },
+        "relatedFoodItemId": {
+          "type": "string",
+          "description": "Reference to a FoodItem entity if the notification is related to a food item. (Relationship: FoodItem 1:N Notification)"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "type",
+        "message",
+        "readStatus",
+        "sentDate"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores individual user profiles including their role. The `role` field is used for initial user categorization, but for specific admin access, the `/roles_admin` collection is checked. `userId` corresponds to Firebase Authentication UID."
+        }
+      },
+      {
+        "path": "/roles_admin/{adminUid}",
+        "definition": {
+          "entityName": "AdminRole",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "A collection where the mere existence of a document signifies that the user (`adminUid`) holds the Admin role. This allows for simple and robust 'existence over content' authorization checks for administrators without requiring `get()` calls to the main User profile. The `adminUid` must match `request.auth.uid`.",
+          "params": [
+            {
+              "name": "adminUid",
+              "description": "The unique Firebase Authentication User ID of an administrator."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/host_profiles/{hostProfileId}",
+        "definition": {
+          "entityName": "HostProfile",
+          "schema": {
+            "$ref": "#/backend/entities/HostProfile"
+          },
+          "description": "Stores profiles for food providers (hosts). Includes denormalized `userId` (the Firebase Auth UID of the managing user) for direct ownership authorization checks. The `isApprovedByAdmin` field governs public visibility and access. Requires the host's `userId` to be stored within the document for authorization independence.",
+          "params": [
+            {
+              "name": "hostProfileId",
+              "description": "The unique identifier for the HostProfile entity."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/host_profiles/{hostProfileId}/address_details/{addressId}",
+        "definition": {
+          "entityName": "Address",
+          "schema": {
+            "$ref": "#/backend/entities/Address"
+          },
+          "description": "Stores specific address details associated with a HostProfile. Includes denormalized `hostUserId` (the Firebase Auth UID of the host) for authorization independence to allow the managing host to update their address without `get()` calls to the parent host profile. `hostProfileId` is provided in the path for logical grouping.",
+          "params": [
+            {
+              "name": "hostProfileId",
+              "description": "The unique identifier for the parent HostProfile."
+            },
+            {
+              "name": "addressId",
+              "description": "The unique identifier for the Address entity, specific to this host."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/food_items/{foodItemId}",
+        "definition": {
+          "entityName": "FoodItem",
+          "schema": {
+            "$ref": "#/backend/entities/FoodItem"
+          },
+          "description": "Central collection for all food item listings. Each document includes denormalized `hostProfileId` and `hostUserId` (the Firebase Auth UID of the host) for authorization independence, allowing hosts to manage their listings directly. `isVerifiedByAdmin` and `availabilityStatus` are critical fields for public visibility and secure list operations.",
+          "params": [
+            {
+              "name": "foodItemId",
+              "description": "The unique identifier for the FoodItem entity."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/orders/{orderId}",
+        "definition": {
+          "entityName": "Order",
+          "schema": {
+            "$ref": "#/backend/entities/Order"
+          },
+          "description": "Stores all customer orders. Each order document includes denormalized `userId` (the customer's Firebase Auth UID), `hostProfileId`, and `hostUserId` (the host's Firebase Auth UID) to ensure full authorization independence for both customer and host access. The delivery address details (street, city, etc.) should also be embedded directly within this document or a subcollection to avoid `get()` calls for address-related rule validation.",
+          "params": [
+            {
+              "name": "orderId",
+              "description": "The unique identifier for the Order entity."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/orders/{orderId}/order_items/{orderItemId}",
+        "definition": {
+          "entityName": "OrderItem",
+          "schema": {
+            "$ref": "#/backend/entities/OrderItem"
+          },
+          "description": "Represents individual food items within a specific order. Access is primarily governed by the parent `Order` document's authorization context. `orderId` is provided in the path for clear hierarchical relationship.",
+          "params": [
+            {
+              "name": "orderId",
+              "description": "The unique identifier for the parent Order entity."
+            },
+            {
+              "name": "orderItemId",
+              "description": "The unique identifier for the OrderItem entity."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/addresses/{addressId}",
+        "definition": {
+          "entityName": "Address",
+          "schema": {
+            "$ref": "#/backend/entities/Address"
+          },
+          "description": "Stores saved addresses belonging to a specific user. `userId` is embedded in the path, making ownership explicit and simplifying authorization rules for user-specific address management.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique Firebase Authentication User ID of the owner."
+            },
+            {
+              "name": "addressId",
+              "description": "The unique identifier for the Address entity."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/notifications/{notificationId}",
+        "definition": {
+          "entityName": "Notification",
+          "schema": {
+            "$ref": "#/backend/entities/Notification"
+          },
+          "description": "Stores notifications intended for a specific user. `userId` is embedded in the path, making the recipient explicit and simplifying authorization rules for user-specific notification access.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique Firebase Authentication User ID of the notification recipient."
+            },
+            {
+              "name": "notificationId",
+              "description": "The unique identifier for the Notification entity."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The recommended Firestore structure for WasteLess Feast prioritizes security, scalability, and debuggability by strictly adhering to the core design principles, especially Authorization Independence via Denormalization and Structural Segregation for clear Query-Accessible Permissions (QAPs).\n\n**Authorization Independence:** This is achieved by systematically denormalizing authorization-critical fields (primarily Firebase `uid`) into documents where access decisions are made. \n*   The `HostProfile` entity includes `userId` (the Firebase `uid` of the managing user) directly, enabling rules to check `request.auth.uid == resource.data.userId` without `get()` calls.\n*   Similarly, `FoodItem` documents include `hostProfileId` and crucially, `hostUserId` (the `uid` of the host managing that `HostProfile`). This allows rules to grant write access to a food item to its owner (`request.auth.uid == resource.data.hostUserId`) without needing to fetch the parent `HostProfile`.\n*   `Order` documents are particularly important as they involve two distinct authorized parties (customer and host). Therefore, each `Order` document denormalizes `userId` (the customer's `uid`), `hostProfileId`, and `hostUserId` (the host's `uid`). This enables both customers to view their orders (`request.auth.uid == resource.data.userId`) and hosts to view orders placed with their profile (`request.auth.uid == resource.data.hostUserId`) without any `get()` operations. Furthermore, to maintain independence, crucial order-specific data like the delivery address *details* should be embedded or snapshotted within the `Order` document, rather than being referenced, to avoid `get()` calls to `Address` documents for rule validation.\n*   Host-specific `Address` documents (under `/host_profiles/{hostProfileId}/address_details`) also denormalize `hostUserId` for direct ownership checks.\n*   User-specific `Address` and `Notification` documents are placed in subcollections of `users/{userId}`, leveraging the path for direct `userId` identification.\n*   The `roles_admin` collection utilizes 'existence over content' for robust admin role checking, where the presence of a document at `/roles_admin/{adminUid}` grants admin permissions.\n\n**Query-Accessible Permissions (QAPs):** The structural segregation and strategic denormalization enable efficient and secure `list` operations without relying on security rules as filters.\n*   **Public Food Items:** Normal users can securely list available and approved food items by querying `/food_items` where `isVerifiedByAdmin == true` and `availabilityStatus` is not 'Expired' or 'Sold Out'. Rules will ensure only such documents are readable, matching the query.\n*   **Host-Specific Food Items:** Hosts can list their own food items by querying `/food_items` where `hostUserId == request.auth.uid`. This leverages the denormalized `hostUserId` for a direct, indexed query.\n*   **User-Specific Orders:** Customers can list their orders by querying `/orders` where `userId == request.auth.uid`. This relies on the denormalized customer `uid`.\n*   **Host-Specific Orders:** Hosts can list orders placed with their profile by querying `/orders` where `hostUserId == request.auth.uid`.\n*   **Approved Host Profiles:** Normal users can list approved host profiles by querying `/host_profiles` where `isApprovedByAdmin == true`.\n*   **User-Owned Data (Addresses, Notifications):** For `/users/{userId}/addresses` and `/users/{userId}/notifications`, the path itself enforces QAPs, as `list` operations naturally include `request.auth.uid` in the `{userId}` wildcard, ensuring only the owner can list their own data.\n\nThis design ensures that authorization rules are declarative and simple, relying on field checks and path segments, which greatly enhances debuggability and prevents accidental data exposure due to complex or fragile `get()`-dependent rules. The explicit state modeling (e.g., `isVerifiedByAdmin`, `availabilityStatus`, `orderStatus`) further simplifies rules and clarifies intent."
+  }
+}
