@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Leaf, ShoppingCart, Package } from "lucide-react";
+import { Menu, ShoppingCart, Package } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 
 const navLinks = [
   { href: "/food", label: "Browse Food" },
-  { href: "#", label: "For Hosts" },
+  { href: "/login", label: "For Hosts" },
   { href: "/animal-feed", label: "Animal Feed" },
   { href: "#", label: "AI Suggestions" },
 ];
@@ -78,8 +78,8 @@ export function Header() {
         <div className="hidden md:flex items-center gap-2">
           {ordersButton}
           {cartButton}
-          <Button variant="ghost" className={cn(isScrolled ? "text-foreground" : "text-background hover:bg-white/10 hover:text-white")}>
-            Log in
+          <Button asChild variant="ghost" className={cn(isScrolled ? "text-foreground" : "text-background hover:bg-white/10 hover:text-white")}>
+            <Link href="/login">Log in</Link>
           </Button>
           <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
             <Link href="/register">Sign up</Link>
@@ -113,7 +113,9 @@ export function Header() {
                   </Link>
                 </nav>
                 <div className="mt-auto flex flex-col gap-2">
-                   <Button variant="outline">Log in</Button>
+                   <Button asChild variant="outline">
+                     <Link href="/login">Log in</Link>
+                   </Button>
                    <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
                      <Link href="/register">Sign up</Link>
                    </Button>
