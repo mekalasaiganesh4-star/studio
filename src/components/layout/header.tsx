@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Leaf, ShoppingCart } from "lucide-react";
+import { Menu, Leaf, ShoppingCart, Package } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
@@ -41,6 +41,15 @@ export function Header() {
     </Button>
   );
 
+  const ordersButton = (
+    <Button asChild variant="ghost" size="icon" className={cn(isScrolled ? "text-foreground" : "text-background hover:bg-white/10 hover:text-white")}>
+      <Link href="/orders">
+        <Package className="h-6 w-6" />
+        <span className="sr-only">My Orders</span>
+      </Link>
+    </Button>
+  );
+
   return (
     <header
       className={cn(
@@ -67,13 +76,17 @@ export function Header() {
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-2">
+          {ordersButton}
           {cartButton}
           <Button variant="ghost" className={cn(isScrolled ? "text-foreground" : "text-background hover:bg-white/10 hover:text-white")}>
             Log in
           </Button>
-          <Button className="bg-accent text-accent-foreground hover:bg-accent/90">Sign up</Button>
+          <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
+            <Link href="/register">Sign up</Link>
+          </Button>
         </div>
         <div className="md:hidden flex items-center gap-2">
+          {ordersButton}
           {cartButton}
           <Sheet>
             <SheetTrigger asChild>
@@ -95,10 +108,15 @@ export function Header() {
                       {link.label}
                     </Link>
                   ))}
+                  <Link href="/orders" className="text-lg font-medium text-foreground hover:text-primary flex items-center gap-2">
+                    <Package className="h-5 w-5" /> My Orders
+                  </Link>
                 </nav>
                 <div className="mt-auto flex flex-col gap-2">
                    <Button variant="outline">Log in</Button>
-                   <Button className="bg-accent text-accent-foreground hover:bg-accent/90">Sign up</Button>
+                   <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
+                     <Link href="/register">Sign up</Link>
+                   </Button>
                 </div>
               </div>
             </SheetContent>

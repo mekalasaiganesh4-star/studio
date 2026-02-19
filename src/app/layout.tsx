@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import { CartProvider } from '@/context/cart-context';
+import { FirebaseClientProvider } from '@/firebase/client-provider';
 
 export const metadata: Metadata = {
   title: 'WasteLess Feast',
@@ -25,10 +26,12 @@ export default function RootLayout({
         />
       </head>
       <body className={cn('font-body antialiased')}>
-        <CartProvider>
-          {children}
-          <Toaster />
-        </CartProvider>
+        <FirebaseClientProvider>
+          <CartProvider>
+            {children}
+            <Toaster />
+          </CartProvider>
+        </FirebaseClientProvider>
       </body>
     </html>
   );
