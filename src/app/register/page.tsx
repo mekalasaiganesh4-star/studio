@@ -17,10 +17,11 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
-import { useAuth } from '@/firebase';
+import { useAuth, useUser } from '@/firebase';
 import { initiateEmailSignUp } from '@/firebase/non-blocking-login';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
+import { useEffect } from 'react';
 
 const registerSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -37,6 +38,7 @@ const registerSchema = z.object({
 
 export default function RegisterPage() {
   const auth = useAuth();
+  const { user } = useUser();
   const router = useRouter();
   const { toast } = useToast();
 
@@ -49,22 +51,19 @@ export default function RegisterPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof registerSchema>) {
-    try {
-      initiateEmailSignUp(auth, values.email, values.password);
-      toast({
-        title: "Registration Initialized",
-        description: "Setting up your account. You will be redirected shortly.",
-      });
-      // Redirect after a short delay for simulated non-blocking registration
-      setTimeout(() => router.push('/'), 2000);
-    } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Registration Failed",
-        description: error.message,
-      });
+  // Handle redirection when user state changes
+  useEffect(() => {
+    if (user) {
+      router.push('/');
     }
+  }, [user, router]);
+
+  function onSubmit(values: z.infer<typeof registerSchema>) {
+    initiateEmailSignUp(auth, values.email, values.password);
+    toast({
+      title: "Registration Initialized",
+      description: "Setting up your account. You will be redirected shortly.",
+    });
   }
 
   return (

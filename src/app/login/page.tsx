@@ -16,11 +16,12 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
-import { useAuth } from '@/firebase';
+import { useAuth, useUser } from '@/firebase';
 import { initiateEmailSignIn } from '@/firebase/non-blocking-login';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -29,6 +30,7 @@ const loginSchema = z.object({
 
 export default function LoginPage() {
   const auth = useAuth();
+  const { user } = useUser();
   const router = useRouter();
   const { toast } = useToast();
 
@@ -40,22 +42,19 @@ export default function LoginPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof loginSchema>) {
-    try {
-      initiateEmailSignIn(auth, values.email, values.password);
-      toast({
-        title: "Logging in...",
-        description: "Redirecting you to the dashboard.",
-      });
-      // Redirect to host add item page for this demo
-      setTimeout(() => router.push('/host/add-item'), 2000);
-    } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Login Failed",
-        description: error.message,
-      });
+  // Handle redirection when user state changes
+  useEffect(() => {
+    if (user) {
+      router.push('/host/add-item');
     }
+  }, [user, router]);
+
+  function onSubmit(values: z.infer<typeof loginSchema>) {
+    initiateEmailSignIn(auth, values.email, values.password);
+    toast({
+      title: "Logging in...",
+      description: "Checking your credentials.",
+    });
   }
 
   return (
