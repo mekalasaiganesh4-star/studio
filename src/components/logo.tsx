@@ -8,7 +8,7 @@ export function Logo({ className }: { className?: string }) {
       <div className="bg-primary p-1.5 rounded-md">
         <Leaf className="h-6 w-6 text-primary-foreground" />
       </div>
-      <span>WasteLess Feast</span>
+      <span>FeedAll</span>
     </Link>
   );
 }

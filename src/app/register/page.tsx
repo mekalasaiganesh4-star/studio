@@ -85,7 +85,7 @@ export default function RegisterPage() {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input placeholder="admin@wastelessfeast.com" {...field} />
+                        <Input placeholder="admin@feedall.com" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

@@ -6,7 +6,7 @@ import { CartProvider } from '@/context/cart-context';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
 
 export const metadata: Metadata = {
-  title: 'WasteLess Feast',
+  title: 'FeedAll',
   description: 'Rescue surplus food and enjoy delicious meals at a lower cost.',
 };
 
